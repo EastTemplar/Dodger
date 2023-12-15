@@ -36,22 +36,22 @@ namespace Dodger.Domain.Pooling
             item.gameObject.SetActive(false);
         }
 
-        private T Unpool()
+        private T UnpoolStacked()
         {
             var unpooledItem = _stack.Pop();
             unpooledItem.gameObject.SetActive(true);
             return unpooledItem;
         }
 
-        public T TryUnpool()
+        public T Unpool()
         {
             if (_stack.Count > 0)
             {
-                return Unpool();
+                return UnpoolStacked();
             }
 
             CreateObject();
-            return Unpool();
+            return UnpoolStacked();
         }
     }
 }
