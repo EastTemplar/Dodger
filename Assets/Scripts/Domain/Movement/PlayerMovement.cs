@@ -1,8 +1,5 @@
 using Dodger.Domain.Inputs;
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-
 
 namespace Dodger.Domain.Movement
 {
