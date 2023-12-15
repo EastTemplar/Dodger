@@ -31,6 +31,7 @@ namespace Dodger.Domain.Spawning
         }
         private void Awake()
         {
+            _enemies = new List<Enemy>();
             _spawner = new ObjectPool<Enemy>(_enemyPrefab, _enemiesParent);
 
             GetCameraXBounds();
