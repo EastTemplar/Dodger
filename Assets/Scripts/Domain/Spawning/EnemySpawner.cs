@@ -20,26 +20,38 @@ namespace Dodger.Domain.Spawning
         private float _leftXCameraBound;
         private float _rightXCameraBound;
         private float _lowerYCameraBound;
+        private float _rightXScaledCameraBound;
+        private float _leftXScaledCameraBound;
         private float _lowerYScaledCameraBound;
 
-        private void GetCameraXBounds()
+        private void GetCameraBounds()
         {
             _leftXCameraBound = _camera.ViewportToWorldPoint(new Vector3(0, 0)).x;
             _rightXCameraBound = _camera.ViewportToWorldPoint(new Vector3(1, 0)).x;
             _lowerYCameraBound = _camera.ViewportToWorldPoint(new Vector3(0, 0)).y;
-            _lowerYScaledCameraBound = _lowerYCameraBound - _enemiesParent.transform.localScale.y;
+
         }
+        private void GetCameraScaledBounds()
+        {
+            float halfedScaleX = _enemyPrefab.transform.localScale.x / 2;
+            float halfedScaleY = _enemyPrefab.transform.localScale.y / 2;
+            _leftXScaledCameraBound = _leftXCameraBound + halfedScaleX;
+            _rightXScaledCameraBound = _rightXCameraBound - halfedScaleX;
+            _lowerYScaledCameraBound = _lowerYCameraBound - halfedScaleY;
+        }
+
         private void Awake()
         {
             _enemies = new List<Enemy>();
             _spawner = new ObjectPool<Enemy>(_enemyPrefab, _enemiesParent);
 
-            GetCameraXBounds();
+            GetCameraBounds();
+            GetCameraScaledBounds();
         }
 
         private void GetRandomPointInCameraBounds()
         {
-            float randomX = Random.Range(_leftXCameraBound, _rightXCameraBound);
+            float randomX = Random.Range(_leftXScaledCameraBound, _rightXScaledCameraBound);
             _randomPointInCameraBounds = new Vector3(randomX, transform.position.y);
         }
 
